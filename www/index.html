@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratório das Misturas</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#e0f4ff;--bg2:#fff1d6;--card:#fff;--ink:#1f2a44;--mut:#5b6784;--pri:#3b82f6;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b;--pur:#8b5cf6;--line:#d5e2f5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0f1b3a;--bg2:#2a1646;--card:#1b2748;--ink:#eef3ff;--mut:#a9b6d6;--line:#33436e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#0f1b3a;--bg2:#2a1646;--card:#1b2748;--ink:#eef3ff;--mut:#a9b6d6;--line:#33436e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2)) fixed}
+h1,h2,h3,.b{font-family:'Baloo 2','Fredoka',system-ui,sans-serif}
+#bar{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 16px;background:var(--card);box-shadow:0 2px 10px #0002;position:sticky;top:0;z-index:5}
+.logo{font:800 20px 'Baloo 2',sans-serif}
+.snd{display:flex;align-items:center;gap:8px}
+.snd input{width:90px;accent-color:var(--pur)}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+.ib{background:var(--bg1);border-radius:12px;padding:6px 10px;font-size:18px}
+main{max-width:820px;margin:0 auto;padding:16px}
+.hero{text-align:center;margin:8px 0 14px}
+.hero h1{font-size:clamp(30px,7vw,46px);margin:0;line-height:1.05;background:linear-gradient(90deg,var(--pri),var(--pur),#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);margin:6px 0}
+.lv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.lv button{background:var(--card);border:3px solid var(--line);border-radius:18px;padding:10px 4px;font-weight:600}
+.lv button b{display:block;font-size:20px}
+.lv button.on{border-color:var(--pur);transform:scale(1.04);box-shadow:0 6px 18px #8b5cf655}
+.lv small{color:var(--mut)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.mode{background:var(--card);border-radius:20px;padding:16px;text-align:left;box-shadow:0 4px 0 var(--c,var(--pri));border:2px solid var(--line);transition:.15s}
+.mode:hover{transform:translateY(-3px)}
+.mode .e{font-size:34px}.mode b{display:block;font-size:19px}.mode span{color:var(--mut);font-size:14px}
+.star{--c:var(--warn);grid-column:1/-1;background:linear-gradient(90deg,#fde68a55,var(--card))}
+.card{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 6px 20px #0002;margin-bottom:12px}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.pill{background:var(--card);border-radius:99px;padding:5px 12px;font-weight:600;box-shadow:0 2px 6px #0002}
+.tb{height:12px;border-radius:9px;background:var(--line);overflow:hidden;margin-bottom:12px}
+.tb i{display:block;height:100%;width:100%;background:var(--ok);transition:width .25s linear,background .3s}
+.q{font:700 clamp(19px,4.5vw,26px)/1.25 'Baloo 2',sans-serif;margin:4px 0 14px}
+.opt{display:block;width:100%;text-align:left;background:var(--bg1);border:3px solid var(--line);border-radius:16px;padding:12px 14px;margin:8px 0;font-size:17px;font-weight:600}
+.opt:hover:not(:disabled){border-color:var(--pri)}
+.opt.ok{background:#bbf7d0;border-color:var(--ok);color:#14532d}
+.opt.no{background:#fecaca;border-color:var(--bad);color:#7f1d1d;animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.act{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn{background:var(--pri);color:#fff;border-radius:14px;padding:10px 16px;font-weight:600;box-shadow:0 4px 0 #1d4ed8}
+.btn.s{background:var(--warn);box-shadow:0 4px 0 #b45309}.btn.g{background:var(--mut);box-shadow:0 4px 0 #333}.btn.p{background:var(--pur);box-shadow:0 4px 0 #5b21b6}
+.hint{background:#fef3c7;color:#78350f;border-radius:12px;padding:10px;margin-top:10px}
+.ov{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9;padding:20px}
+.ov .card{max-width:420px;text-align:center}.ov .e{font-size:64px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.sum .card{margin:0;border-top:6px solid var(--c)}.sum h3{margin:0 0 6px}.sum p{margin:0;font-size:15px;line-height:1.4}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cols button{background:var(--bg1);border:3px solid var(--line);border-radius:14px;padding:10px;font-weight:600;font-size:15px;margin-bottom:8px;width:100%}
+.cols .sel{border-color:var(--pur);background:#ede9fe;color:#1f2a44}.cols .done{border-color:var(--ok);background:#bbf7d0;color:#14532d;opacity:.8}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mc{aspect-ratio:1/1.05;border-radius:14px;background:linear-gradient(135deg,var(--pri),var(--pur));color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;padding:4px;text-align:center;font-weight:600}
+.mc.f{background:var(--card);color:var(--ink);border:3px solid var(--pur);font-size:12px}.mc.m{background:#bbf7d0;color:#14532d;border-color:var(--ok)}
+.ws{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;user-select:none}
+.ws button{aspect-ratio:1;background:var(--bg1);border-radius:6px;font:700 clamp(12px,3.6vw,18px) 'Baloo 2';padding:0}
+.ws .a{background:#c4b5fd;color:#1f2a44}.ws .fd{background:#86efac;color:#14532d}
+.wl span{display:inline-block;background:var(--card);border-radius:99px;padding:3px 10px;margin:3px;font-weight:600}.wl .fd{background:#86efac;color:#14532d;text-decoration:line-through}
+</style></head><body>
+<div id="bar"><div class="logo">🧪 Lab das Misturas</div>
+<div class="snd"><button class="ib" id="mu" title="Som">🔊</button><input id="vo" type="range" min="0" max="100" value="50" aria-label="Volume"></div></div>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const LV={f:{n:'Fácil',t:90,l:3,e:'🌱'},n:{n:'Normal',t:60,l:4,e:'🔥'},d:{n:'Difícil',t:30,l:5,e:'⚡'}};
+// [pergunta,[certa,erradas...],dica]
+const Q=[
+["Como se chama a técnica de separar sólidos selecionando e pegando com as mãos?",["Catação","Levigação","Ventilação","Filtração"],"Pense em escolher feijão ruim."],
+["Quais materiais são atraídos por ímã?",["Ferro, cobalto e níquel","Cobre, ouro e prata","Alumínio, vidro e areia","Madeira, ferro e papel"],"São três metais, o primeiro começa com F."],
+["Na levigação, o que é usado para arrastar os sólidos menos densos?",["Correntes de água","Correntes de ar","Um ímã","Uma peneira"],"Usada no garimpo de ouro."],
+["Na ventilação, o que arrasta os sólidos menos densos?",["Correntes de ar","Correntes de água","Rotação","Calor"],"Lembra vento."],
+["A peneiração separa sólidos com diferentes…",["Granulometrias (tamanhos)","Cores","Temperaturas","Cheiros"],"A peneira tem uma malha."],
+["A filtração é usada para separar misturas do tipo…",["Sólido-líquido ou sólido-gás","Líquido-líquido","Somente sólido-sólido","Gás-gás"],"O filtro retém partículas sólidas."],
+["A sedimentação é causada por qual força?",["Gravidade","Magnetismo","Rotação","Calor"],"É o que faz as coisas caírem."],
+["Qual equipamento separa água e óleo (líquido-líquido)?",["Funil de separação","Peneira","Ímã","Papel-filtro"],"Também se chama funil de decantação."],
+["A centrifugação usa qual movimento para acelerar a separação?",["Rotação","Congelamento","Evaporação","Pulverização"],"Máquina de lavar roupa."],
+["Após centrifugar o sangue, o que fica no fundo do tubo?",["Células vermelhas (hemácias)","Plasma","Leucócitos","Água"],"São as mais densas."],
+["Após centrifugar o sangue, o que fica na parte superior?",["Plasma sanguíneo","Hemácias","Plaquetas","Leucócitos"],"É a camada menos densa."],
+["Na flotação, o líquido deve ter densidade…",["Intermediária","Maior que todos","Menor que todos","Nenhuma, tanto faz"],"Fica entre a do material que flutua e a do que afunda."],
+["Reciclagem é o processo de transformar…",["Resíduos sólidos em matérias-primas","Água suja em água potável","Lodo em gás","Metal em ímã"],"Fabricar novos produtos."],
+["O que ajuda a identificar produtos recicláveis na embalagem?",["O símbolo internacional da reciclagem","A cor da embalagem","O preço","O tamanho"],"São setas formando um triângulo."],
+["As misturas heterogêneas são formadas por…",["Duas ou mais fases","Uma única fase","Apenas gases","Nenhuma fase"],"Dá para ver a olho nu."],
+["Como se chama a fonte de água (rios, lagos) captada para tratamento?",["Manancial","Reservatório","Decantador","Floculador"],"Está no glossário da página 14."],
+["Qual etapa da ETA adiciona cloreto de ferro para agrupar a sujeira?",["Coagulação","Floculação","Filtração","Fluoretação"],"Usa agentes coagulantes."],
+["Na floculação, as partículas pequenas formam…",["Flocos maiores","Gases","Cristais","Bolhas"],"A água é agitada levemente."],
+["Quais são as camadas do filtro da ETA?",["Carvão, areia e cascalho","Ferro, cloro e areia","Papel, tecido e carvão","Cloro, flúor e cascalho"],"Três camadas diferentes."],
+["A cloração na desinfecção serve para…",["Eliminar bactérias, vírus e fungos","Retirar pedras","Formar flocos","Aquecer a água"],"Microrganismos patogênicos."],
+["A fluoretação da água ajuda a prevenir…",["Cáries","Gripe","Anemia","Verminoses"],"Cuida dos dentes."],
+["Qual a função das grades na ETE?",["Retirar resíduos sólidos grandes","Reter areia","Adicionar ar","Desinfetar a água"],"Papel e plástico vão ao aterro."],
+["Onde ocorre a retenção da areia contida no esgoto?",["Caixa de areia","Decantador secundário","Digestor","Esteira"],"O nome já diz."],
+["Para que os tanques de aeração recebem ar?",["Para os microrganismos se multiplicarem","Para esfriar o esgoto","Para formar metano","Para secar o lodo"],"Eles se alimentam da matéria orgânica."],
+["O que o decantador secundário deixa livre de impurezas?",["Cerca de 90%","Cerca de 10%","100%","Cerca de 50%"],"Mesmo assim a água não é própria para consumo."],
+["O que os digestores anaeróbios produzem?",["Gás metano e água","Oxigênio","Cloro","Areia"],"Microrganismos que não usam oxigênio."],
+["Qual a função dos filtros-prensa no tratamento do lodo?",["Desidratar o lodo","Adicionar ar","Gerar cloro","Aquecer o lodo"],"O lodo é prensado."],
+["Qual o destino do lodo depois da esteira?",["Aterro sanitário","Rio","Torneiras","Reservatório de água"],"Etapa 7."],
+["Microcontaminantes são, por exemplo…",["Hormônios, medicamentos e pesticidas","Areia e pedras","Plásticos e papéis","Folhas e galhos"],"Quantidades muito pequenas."],
+["No filtro de barro, qual material reduz sabor, odor e cloro?",["Carvão ativado","Prata","Areia","Cascalho"],"Origem vegetal."],
+["Para que servem as nanopartículas de prata do filtro de barro?",["Eliminar cerca de 99% das bactérias","Dar sabor","Colorir a água","Aquecer a água"],"Ação esterilizante."],
+["Qual a diferença da ETE para a ETA?",["A ETE trata o esgoto; a ETA trata a água para consumo","São a mesma coisa","A ETE gera água potável","A ETA trata o lodo"],"O caminho é inverso."]];
+// [afirmação, verdadeira?, dica]
+const VF=[
+["A catação é uma técnica manual de separação.",1,"Catar = pegar com as mãos."],
+["A separação magnética atrai alumínio e vidro.",0,"Só ferro, cobalto e níquel."],
+["Na levigação, os sólidos mais densos são arrastados pela água.",0,"Os menos densos é que são arrastados."],
+["A ventilação usa correntes de ar.",1,"Pense em vento."],
+["A peneiração é muito eficiente para separar pós de líquidos.",0,"Nesse caso usa-se a filtração."],
+["A filtração pode separar sólido de gás.",1,"Aspirador e ar-condicionado."],
+["A decantação só funciona com misturas homogêneas.",0,"É para heterogêneas."],
+["A centrifugação usa rotação para acelerar a separação.",1,"Exame de sangue."],
+["Na flotação, o material menos denso flutua.",1,"Serragem na água."],
+["A coagulação vem depois da filtração na ETA.",0,"Vem antes da floculação."],
+["Na ETA, a água passa por camadas de carvão, areia e cascalho.",1,"Etapa de filtração."],
+["O lodo vai para o aterro sanitário ao final do tratamento.",1,"Armazenamento, etapa 7."],
+["As misturas heterogêneas têm uma única fase.",0,"São duas ou mais fases."],
+["A água do decantador secundário já é própria para consumo.",0,"Pode ser lançada nos rios."],
+["O símbolo da reciclagem ajuda a identificar produtos recicláveis.",1,"Fica na embalagem."]];
+const P=[["Catação","Selecionar e pegar com as mãos"],["Separação magnética","Atrai ferro, cobalto e níquel"],["Levigação","Correntes de água"],["Ventilação","Correntes de ar"],["Peneiração","Malha que retém sólidos maiores"],["Filtração","Filtro que retém partículas sólidas"],["Centrifugação","Rotação acelera a separação"],["Flotação","Líquido de densidade intermediária"],["Decantação","Funil de separação (líquido-líquido)"],["Coagulação","Agrupa partículas de sujeira"],["Floculação","Forma flocos maiores"],["Desinfecção","Cloro elimina microrganismos"]];
+const S=[["🧩","Misturas heterogêneas","Duas ou mais fases, vistas a olho nu. Técnicas mecânicas e manuais, simples e baratas.","#3b82f6"],
+["✋","Catação e ímã","Catação: pegar com as mãos. Separação magnética: ímã atrai ferro, cobalto e níquel.","#22c55e"],
+["💧","Levigação e ventilação","Sólido-sólido. Água (levigação) ou ar (ventilação) arrastam os menos densos.","#06b6d4"],
+["🔍","Peneiração e filtração","Peneira: tamanhos (granulometrias) diferentes. Filtro: sólido-líquido ou sólido-gás. Pós muito pequenos: filtração.","#f59e0b"],
+["⬇️","Sedimentação e decantação","Gravidade deposita o mais denso no fundo. Decantação sólido-líquido: bastão de vidro. Líquido-líquido: funil de separação.","#8b5cf6"],
+["🌀","Centrifugação","Rotação acelera a separação. Sangue: plasma em cima, leucócitos e plaquetas no meio, hemácias no fundo.","#ef4444"],
+["🛟","Flotação","Líquido de densidade intermediária: o menos denso flutua, o mais denso afunda (serragem e areia).","#ec4899"],
+["♻️","Reciclagem","Resíduos sólidos viram matéria-prima. Etapas: separação, recolhimento, triagem, lavagem, processamento, novos produtos, reinício. Catação e flotação ajudam.","#16a34a"],
+["🚰","ETA: água potável","Manancial → captação e gradeamento → coagulação → floculação → decantação → filtração (carvão, areia, cascalho) → desinfecção (cloro, flúor) → reservatórios → distribuição.","#0ea5e9"],
+["🏭","ETE: esgoto","Cidade → redes → grades → caixa de areia → decantador primário → aeração (microrganismos) → decantador secundário (90% limpo) → rio. Lodo vai para tratamento.","#a16207"],
+["🟤","Tratamento do lodo","Entrada → adensadores → flotadores → digestores anaeróbios (metano) → filtros-prensa → esteira → aterro sanitário.","#78350f"]];
+// ---------- áudio ----------
+let ac,mg,vol=.5,mute=false,tm,TR=[{s:[262,330,392,523,392,330],b:230,t:'triangle'},{s:[220,261,329,440,329,261,196,246],b:190,t:'square'},{s:[196,247,294,392,294,247,220],b:300,t:'sine'}],cur=0;
+function ia(){if(ac)return;ac=new(window.AudioContext||window.webkitAudioContext)();mg=ac.createGain();mg.connect(ac.destination);sv()}
+function sv(){if(mg)mg.gain.value=mute?0:vol;$('#mu').textContent=mute||!vol?'🔇':'🔊'}
+function tn(f,d,t='sine',g=.2,w=0){if(!ac)return;const o=ac.createOscillator(),e=ac.createGain(),x=ac.currentTime+w;o.type=t;o.frequency.value=f;e.gain.setValueAtTime(g,x);e.gain.exponentialRampToValueAtTime(.001,x+d);o.connect(e);e.connect(mg);o.start(x);o.stop(x+d)}
+function music(){ia();clearInterval(tm);const k=TR[cur];let i=0;tm=setInterval(()=>{tn(k.s[i%k.s.length],k.b/1000,k.t,.07);if(i%4==0)tn(k.s[0]/2,k.b/500,'sine',.09);i++},k.b)}
+function pick(){cur=Math.random()*TR.length|0;music()}
+const sfx={ok(){tn(660,.15,'triangle',.3);tn(880,.25,'triangle',.3,.12)},no(){tn(200,.3,'sawtooth',.25);tn(140,.35,'sawtooth',.25,.15)},win(){[523,659,784,1046].forEach((f,i)=>tn(f,.25,'triangle',.3,i*.14))},lose(){[400,330,260,180].forEach((f,i)=>tn(f,.3,'sawtooth',.25,i*.18))},tick(){tn(900,.05,'square',.1)}};
+$('#mu').onclick=()=>{ia();mute=!mute;sv()};$('#vo').oninput=e=>{ia();vol=e.target.value/100;mute=false;sv()};
+// ---------- telas ----------
+let lv='n',T=0,G;
+const A=$('#app');
+function home(){clearInterval(T);G=null;A.innerHTML=`<div class="hero"><div style="font-size:54px">🧪🔬💧</div><h1>Laboratório das Misturas</h1><p>Ciências 6º ano · Livro 4 · Separação de misturas, ETA e ETE</p></div>
+<h3 style="margin:6px 0">1. Escolha o nível (vale para Quiz e Verdadeiro ou Falso)</h3>
+<div class="lv">${Object.entries(LV).map(([k,v])=>`<button data-k="${k}" class="${k==lv?'on':''}">${v.e}<b>${v.n}</b><small>${v.t==90?'1:30':v.t==60?'1:00':'0:30'} por pergunta · ${v.l} ❤️</small></button>`).join('')}</div>
+<h3 style="margin:6px 0">2. Escolha o jogo</h3><div class="modes">
+<button class="mode star" data-m="quiz"><div class="e">🏆</div><b>QUIZ PRINCIPAL</b><span>${Q.length} perguntas misturadas, com dicas e pulos</span></button>
+<button class="mode" data-m="vf" style="--c:var(--ok)"><div class="e">✅</div><b>Verdadeiro ou Falso</b><span>Decida rápido!</span></button>
+<button class="mode" data-m="match" style="--c:var(--pur)"><div class="e">🔗</div><b>Ligue as Colunas</b><span>Associe técnica e função</span></button>
+<button class="mode" data-m="mem" style="--c:#ec4899"><div class="e">🃏</div><b>Jogo da Memória</b><span>Encontre os pares</span></button>
+<button class="mode" data-m="ws" style="--c:#06b6d4"><div class="e">🔎</div><b>Caça-palavras</b><span>Ache 8 palavras escondidas</span></button>
+<button class="mode" data-m="sum" style="--c:var(--warn)"><div class="e">📖</div><b>Resumo para estudar</b><span>Tudo em cartões</span></button></div>`;
+document.querySelectorAll('.lv button').forEach(b=>b.onclick=()=>{ia();lv=b.dataset.k;home()});
+document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ia();go(b.dataset.m)})}
+function go(m){({quiz:()=>game('quiz'),vf:()=>game('vf'),match,mem,ws,sum})[m]()}
+const back=()=>`<button class="btn g" onclick="home()">🏠 Início</button>`;
+function sum(){A.innerHTML=`<div class="top"><h2 style="margin:0">📖 Resumo para estudar</h2>${back()}</div><div class="sum">${S.map(s=>`<div class="card" style="--c:${s[3]}"><h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p></div>`).join('')}</div>`}
+// ---------- quiz / V-F ----------
+function game(mode){const c=LV[lv];pick();
+const items=mode=='quiz'?Q.map(x=>({q:x[0],o:sh(x[1]),a:x[1][0],h:x[2]})):VF.map(x=>({q:x[0],o:['Verdadeiro','Falso'],a:x[1]?'Verdadeiro':'Falso',h:x[2]}));
+G={mode,c,queue:sh(items),total:items.length,lives:c.l,score:0,lock:false};ask()}
+function ask(){clearInterval(T);const g=G;if(!g.queue.length)return end(1);g.lock=false;g.left=g.c.t;const it=g.queue[0];
+A.innerHTML=`<div class="top"><button class="btn g" onclick="home()">🏠 Início</button><span class="pill">${LV[lv].e} ${LV[lv].n}</span><span class="pill" id="lf">${'❤️'.repeat(g.lives)}${'🖤'.repeat(g.c.l-g.lives)}</span><span class="pill">⭐ ${g.score}/${g.total}</span></div>
+<div class="card"><div class="top"><span class="pill">${g.mode=='quiz'?'🏆 Quiz':'✅ V ou F'} · faltam ${g.queue.length}</span><span class="pill b" id="tx"></span></div><div class="tb"><i id="tf"></i></div>
+<div class="q">${it.q}</div>${it.o.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}
+<div id="hn"></div><div class="act"><button class="btn p" id="bh">💡 Dica</button><button class="btn s" id="bs">⏭️ Pular</button></div></div>`;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pickA(b));
+$('#bh').onclick=()=>{$('#hn').innerHTML=`<div class="hint">💡 ${it.h}</div>`};
+$('#bs').onclick=()=>{if(g.lock)return;g.queue.push(g.queue.shift());ask()};tick();
+T=setInterval(()=>{g.left--;tick();if(g.left<=5&&g.left>0)sfx.tick();if(g.left<=0){clearInterval(T);miss(null)}},1000)}
+function tick(){const g=G,m=g.left/60|0,s=String(g.left%60).padStart(2,'0');$('#tx').textContent=`⏱️ ${m}:${s}`;const f=$('#tf');f.style.width=g.left/g.c.t*100+'%';f.style.background=g.left/g.c.t>.5?'var(--ok)':g.left/g.c.t>.2?'var(--warn)':'var(--bad)'}
+function pickA(b){const g=G;if(g.lock)return;clearInterval(T);const it=g.queue[0];if(b.textContent==it.a){g.lock=true;b.classList.add('ok');g.score++;sfx.ok();g.queue.shift();setTimeout(ask,900)}else miss(b)}
+function miss(b){const g=G;g.lock=true;const it=g.queue[0];sfx.no();g.lives--;if(b)b.classList.add('no');document.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(o.textContent==it.a)o.classList.add('ok')});
+$('#lf').textContent='❤️'.repeat(g.lives)+'🖤'.repeat(g.c.l-g.lives);if(!b)$('#hn').innerHTML='<div class="hint">⏰ O tempo acabou!</div>';
+if(g.lives<=0)return setTimeout(()=>end(0),1400);g.queue.push(g.queue.shift());setTimeout(ask,1600)}
+function end(w){clearInterval(T);clearInterval(tm);w?sfx.win():sfx.lose();const o=document.createElement('div');o.className='ov';
+o.innerHTML=`<div class="card"><div class="e">${w?'🏆':'💔'}</div><h2>${w?'Parabéns, cientista!':'Fim das vidas!'}</h2><p>Acertos: <b>${G.score}</b> de ${G.total}</p><p>${w?'Você respondeu todas as perguntas!':'Estude o resumo e tente de novo.'}</p><button class="btn" id="ok">Voltar ao início</button></div>`;document.body.appendChild(o);$('#ok').onclick=()=>{o.remove();home()}}
+// ---------- ligue as colunas ----------
+function match(){const ps=sh(P).slice(0,6),L=sh(ps.map(p=>p[0])),R=sh(ps.map(p=>p[1]));let sel=null,ok=0,er=0;
+A.innerHTML=`<div class="top"><h2 style="margin:0">🔗 Ligue as Colunas</h2>${back()}</div><div class="card"><p id="mm">Toque num item da esquerda e depois na função certa.</p><div class="cols"><div>${L.map(x=>`<button data-s="L" data-v="${x}">${x}</button>`).join('')}</div><div>${R.map(x=>`<button data-s="R" data-v="${x}">${x}</button>`).join('')}</div></div></div>`;
+document.querySelectorAll('.cols button').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;ia();
+if(b.dataset.s=='L'){document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b;return}
+if(!sel)return;const p=ps.find(p=>p[0]==sel.dataset.v);
+if(p[1]==b.dataset.v){sfx.ok();sel.className='done';b.className='done';sel=null;if(++ok==6){sfx.win();$('#mm').innerHTML=`🎉 Completou com ${er} erro(s)! <button class="btn" onclick="match()">Jogar de novo</button>`}}
+else{sfx.no();er++;b.classList.add('no');setTimeout(()=>b.classList.remove('no'),400)}})}
+// ---------- memória ----------
+function mem(){const ps=sh(P).slice(0,6);let cs=sh(ps.flatMap((p,i)=>[{i,t:p[0]},{i,t:p[1]}])),op=[],mv=0,ok=0,lk=0;
+A.innerHTML=`<div class="top"><h2 style="margin:0">🃏 Jogo da Memória</h2><span class="pill" id="mv">Jogadas: 0</span>${back()}</div><div class="card"><p>Una cada técnica à sua função.</p><div class="mem">${cs.map((c,k)=>`<button class="mc" data-k="${k}">❓</button>`).join('')}</div></div>`;
+document.querySelectorAll('.mc').forEach(b=>b.onclick=()=>{ia();const c=cs[b.dataset.k];if(lk||b.classList.contains('f')||b.classList.contains('m'))return;b.classList.add('f');b.textContent=c.t;op.push([b,c]);
+if(op.length==2){mv++;$('#mv').textContent='Jogadas: '+mv;lk=1;const[x,y]=op;if(x[1].i==y[1].i){sfx.ok();x[0].className=y[0].className='mc m';op=[];lk=0;if(++ok==6)sfx.win()}else setTimeout(()=>{sfx.no();x[0].className=y[0].className='mc';x[0].textContent=y[0].textContent='❓';op=[];lk=0},1100)}})}
+// ---------- caça-palavras ----------
+function ws(){const W=['CATACAO','PENEIRA','FILTRO','FLOTACAO','DECANTACAO','LODO','ESGOTO','FLOCULACAO'],N=12,g=Array(N*N).fill(''),D=[[0,1],[1,0],[1,1]];
+for(const w of W){for(let t=0;t<200;t++){const d=D[Math.random()*3|0],r=Math.random()*N|0,c=Math.random()*N|0,er=r+d[0]*(w.length-1),ec=c+d[1]*(w.length-1);if(er>=N||ec>=N)continue;let f=1;for(let i=0;i<w.length;i++){const v=g[(r+d[0]*i)*N+c+d[1]*i];if(v&&v!=w[i])f=0}if(!f)continue;for(let i=0;i<w.length;i++)g[(r+d[0]*i)*N+c+d[1]*i]=w[i];break}}
+const AL='ABCDEFGHIJLMNOPRSTUV';for(let i=0;i<g.length;i++)if(!g[i])g[i]=AL[Math.random()*AL.length|0];
+let st=null,fd=new Set(),cells=[];
+A.innerHTML=`<div class="top"><h2 style="margin:0">🔎 Caça-palavras</h2>${back()}</div><div class="card"><p>Toque na primeira e depois na última letra da palavra.</p><div class="wl" id="wl">${W.map(w=>`<span id="w${w}">${w}</span>`).join('')}</div><div class="ws" id="gr">${g.map((l,i)=>`<button data-i="${i}">${l}</button>`).join('')}</div></div>`;
+cells=[...document.querySelectorAll('#gr button')];
+cells.forEach(b=>b.onclick=()=>{ia();const i=+b.dataset.i;if(st==null){st=i;b.classList.add('a');return}
+const r1=st/N|0,c1=st%N,r2=i/N|0,c2=i%N,dr=Math.sign(r2-r1),dc=Math.sign(c2-c1),n=Math.max(Math.abs(r2-r1),Math.abs(c2-c1))+1;let idx=[],s='';
+if((r2-r1==0||c2-c1==0||Math.abs(r2-r1)==Math.abs(c2-c1))&&n>1){for(let k=0;k<n;k++){const j=(r1+dr*k)*N+c1+dc*k;idx.push(j);s+=g[j]}}
+cells[st].classList.remove('a');const w=W.find(x=>x==s||x==[...s].reverse().join(''));
+if(w&&!fd.has(w)){fd.add(w);idx.forEach(j=>cells[j].classList.add('fd'));$('#w'+w).classList.add('fd');sfx.ok();if(fd.size==W.length)sfx.win()}else sfx.no();st=null})}
+home();
+</script></body></html>
