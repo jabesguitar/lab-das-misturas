@@ -20,6 +20,10 @@ jobs:
       - run: npm install
       - run: npx cap add android
       - run: npx cap sync android
+      - name: Aplicar icone do app
+        run: |
+          rm -rf android/app/src/main/res/mipmap-anydpi-v26
+          cp -r res/mipmap-* android/app/src/main/res/
       - name: Gerar APK
         working-directory: android
         run: |
